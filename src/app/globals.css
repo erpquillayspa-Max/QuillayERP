@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Paleta oficial Quillay */
+  --quillay-tronco: #20130f;
+  --quillay-oscuro: #1d3214;
+  --quillay-medio: #435c33;
+  --quillay-claro: #688555;
+
+  --color-text: #20130f;
+  --color-text-secondary: #444242;
+  --color-text-muted: #5b5b5f;
+  --color-border: #87868a;
+  --color-background: #ffffff;
+  --color-background-alt: #dbdbdb;
+}
+
+html, body {
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Estilo custom para los inputs */
+input:focus, select:focus, textarea:focus {
+  outline: 2px solid var(--quillay-medio);
+  outline-offset: 2px;
+}
+
+/* Scrollbar estilizado */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: var(--quillay-claro); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--quillay-medio); }
