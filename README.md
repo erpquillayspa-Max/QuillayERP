@@ -235,4 +235,4 @@ npm run lint      # Revisar código
 
 **Empresa:** Quillay SPA · RUT 76.402.512-1
 **Representante:** Maximiliano Rodríguez Valencia
-**Contacto:** contacto@quillayspa.cl
+**Contacto:** info.quillayspa@gmail.com
