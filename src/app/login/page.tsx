@@ -1,10 +1,12 @@
-'use client';
+﻿'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+
+const REMEMBER_KEY = 'quillay_remember_email';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,8 +14,18 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [recordar, setRecordar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Al montar, recuperar email guardado
+  useEffect(() => {
+    const guardado = localStorage.getItem(REMEMBER_KEY);
+    if (guardado) {
+      setEmail(guardado);
+      setRecordar(true);
+    }
+  }, []);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -28,49 +40,43 @@ export default function LoginPage() {
     if (authError) {
       setError(
         authError.message === 'Invalid login credentials'
-          ? 'Email o contraseña incorrectos'
+          ? 'Email o contrasena incorrectos'
           : authError.message
       );
       setLoading(false);
       return;
     }
 
-    // Login exitoso
+    // Guardar email si marco recordar
+    if (recordar) {
+      localStorage.setItem(REMEMBER_KEY, email);
+    } else {
+      localStorage.removeItem(REMEMBER_KEY);
+    }
+
     router.push('/dashboard');
     router.refresh();
   }
 
   return (
     <main className="min-h-screen flex flex-col bg-neutral-50">
-      {/* Header simple */}
       <header className="p-6">
         <Link href="/" className="inline-flex items-center gap-2 text-neutral-600 hover:text-quillay-medio">
-          ← Volver al sitio
+          Volver al sitio
         </Link>
       </header>
 
-      {/* Centered card */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
           <div className="flex flex-col items-center mb-8">
-            <Image
-              src="/logo/quillay-logo.png"
-              alt="Quillay"
-              width={80}
-              height={80}
-              priority
-            />
-            <h1 className="font-serif text-2xl text-quillay-tronco mt-4">
-              QUILLAY ERP
-            </h1>
+            <Image src="/logo/quillay-logo.png" alt="Quillay" width={80} height={80} priority />
+            <h1 className="font-serif text-2xl text-quillay-tronco mt-4">QUILLAY ERP</h1>
             <p className="text-sm text-neutral-500 mt-1">Ingresa a tu cuenta</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
-                Email
-              </label>
+              <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">Email</label>
               <input
                 id="email"
                 type="email"
@@ -84,9 +90,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">
-                Contraseña
-              </label>
+              <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">Contrasena</label>
               <input
                 id="password"
                 type="password"
@@ -94,9 +98,22 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 border border-neutral-300 rounded focus:border-quillay-medio"
-                placeholder="••••••••"
+                placeholder="********"
                 autoComplete="current-password"
               />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                id="recordar"
+                type="checkbox"
+                checked={recordar}
+                onChange={(e) => setRecordar(e.target.checked)}
+                className="h-4 w-4 text-quillay-medio border-neutral-300 rounded focus:ring-quillay-medio"
+              />
+              <label htmlFor="recordar" className="ml-2 text-sm text-neutral-700 cursor-pointer">
+                Recordar usuario en este dispositivo
+              </label>
             </div>
 
             {error && (
