@@ -50,18 +50,57 @@ export type Empresa = {
   creada_en: string;
 };
 
+// =====================================================
+// CENTROS DE COSTO
+// =====================================================
+
+export type TipoCC = 'cliente' | 'interno' | 'postventa';
+export type NivelCC = 'N1' | 'N2' | 'N3';
+export type EstadoCC = 'activo' | 'cerrado' | 'pausado';
+
+export const tipoCCLabels: Record<TipoCC, string> = {
+  cliente: 'Cliente',
+  interno: 'Interno',
+  postventa: 'Postventa'
+};
+
+export const nivelCCLabels: Record<NivelCC, string> = {
+  N1: 'Nivel 1 - División',
+  N2: 'Nivel 2 - Proyecto',
+  N3: 'Nivel 3 - Etapa'
+};
+
+export const estadoCCLabels: Record<EstadoCC, string> = {
+  activo: 'Activo',
+  cerrado: 'Cerrado',
+  pausado: 'Pausado'
+};
+
 export type CentroCosto = {
   id: string;
+  empresa_id: string;
   codigo: string;
   nombre: string;
-  descripcion: string | null;
-  nivel: number;
+  tipo: TipoCC;
+  nivel: NivelCC;
   padre_id: string | null;
-  es_bodega: boolean;
-  activo: boolean;
-  empresa_id: string;
+  cliente_id: string | null;
+  responsable_usuario_id: string | null;
+  presupuesto: number | null;
+  fecha_inicio: string | null;
+  fecha_termino: string | null;
+  estado: EstadoCC;
+  lleva_bodega: boolean;
+  porcentaje_retencion_default: number | null;
+  cc_padre_postventa_id: string | null;
+  notas: string | null;
+  creado_por: string | null;
   creado_en: string;
 };
+
+// =====================================================
+// PARÁMETROS LEGALES
+// =====================================================
 
 export type ParametroLegal = {
   id: string;
