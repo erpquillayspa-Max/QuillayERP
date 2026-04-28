@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
@@ -31,7 +31,6 @@ export default function EditarUsuarioPage() {
 
   useEffect(() => {
     async function cargar() {
-      // Obtener mi rol actual
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data: miU } = await supabase
@@ -42,7 +41,6 @@ export default function EditarUsuarioPage() {
         if (miU) setMiRol(miU.rol as RolUsuario);
       }
 
-      // Cargar datos del usuario a editar
       const { data, error } = await supabase
         .from('usuarios')
         .select('*')
@@ -163,7 +161,8 @@ export default function EditarUsuarioPage() {
               type="text"
               value={form.nombre_completo}
               onChange={(e) => setForm({ ...form, nombre_completo: e.target.value })}
-              className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio"
+              className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio focus:outline-none"
+              required
             />
           </div>
 
@@ -175,7 +174,7 @@ export default function EditarUsuarioPage() {
               type="tel"
               value={form.telefono}
               onChange={(e) => setForm({ ...form, telefono: e.target.value })}
-              className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio"
+              className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio focus:outline-none"
             />
           </div>
         </div>
@@ -187,7 +186,8 @@ export default function EditarUsuarioPage() {
           <select
             value={form.rol}
             onChange={(e) => setForm({ ...form, rol: e.target.value as RolUsuario })}
-            className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio bg-white"
+            className="w-full px-3 py-2 border border-neutral-300 rounded focus:border-quillay-medio focus:outline-none bg-white"
+            disabled={esAdmin && !puedeModificarAdmins}
           >
             <option value="trabajador">{rolLabels.trabajador}</option>
             <option value="supervisor">{rolLabels.supervisor}</option>
@@ -205,6 +205,7 @@ export default function EditarUsuarioPage() {
             checked={form.puede_comprar}
             onChange={(e) => setForm({ ...form, puede_comprar: e.target.checked })}
             className="h-4 w-4 text-quillay-medio border-neutral-300 rounded"
+            disabled={esAdmin && !puedeModificarAdmins}
           />
           <label htmlFor="puede_comprar" className="text-sm text-neutral-700">
             Puede registrar compras y gastos
@@ -218,6 +219,7 @@ export default function EditarUsuarioPage() {
             checked={form.activo}
             onChange={(e) => setForm({ ...form, activo: e.target.checked })}
             className="h-4 w-4 text-quillay-medio border-neutral-300 rounded"
+            disabled={esAdmin && !puedeModificarAdmins}
           />
           <label htmlFor="activo" className="text-sm text-neutral-700">
             Cuenta activa
@@ -239,14 +241,14 @@ export default function EditarUsuarioPage() {
         <div className="flex gap-3 pt-2">
           <button
             type="submit"
-            disabled={guardando}
-            className="bg-quillay-medio hover:bg-quillay-oscuro disabled:bg-neutral-400 text-white px-6 py-2 rounded font-medium"
+            disabled={guardando || (esAdmin && !puedeModificarAdmins)}
+            className="bg-quillay-medio hover:bg-quillay-oscuro disabled:bg-neutral-400 text-white px-6 py-2 rounded font-medium transition-colors"
           >
             {guardando ? 'Guardando...' : 'Guardar cambios'}
           </button>
           <Link
             href="/admin/usuarios"
-            className="px-6 py-2 border border-neutral-300 rounded text-neutral-700 hover:bg-neutral-50"
+            className="px-6 py-2 border border-neutral-300 rounded text-neutral-700 hover:bg-neutral-50 transition-colors"
           >
             Cancelar
           </Link>
