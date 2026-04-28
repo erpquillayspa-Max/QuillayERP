@@ -1,12 +1,20 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { FolderTree, Users2, CreditCard } from 'lucide-react';
+import { FolderTree, Users2, CreditCard, Receipt } from 'lucide-react';
 
 export default function GastosPage() {
   const router = useRouter();
 
   const modulos = [
+    {
+      titulo: 'Registro de Gastos',
+      descripcion: 'Registra y consulta todos los gastos de la empresa',
+      icono: Receipt,
+      href: '/gastos/registro',
+      color: 'bg-quillay-medio',
+      destacado: true
+    },
     {
       titulo: 'Categorías de Gasto',
       descripcion: 'Administra las categorías para clasificar gastos',
@@ -37,14 +45,18 @@ export default function GastosPage() {
         <p className="text-neutral-600 mt-1">Gestión completa de gastos, proveedores y categorías</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-6">
         {modulos.map((modulo) => {
           const Icono = modulo.icono;
           return (
             <div
               key={modulo.href}
               onClick={() => router.push(modulo.href)}
-              className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 border border-neutral-200 hover:border-quillay-medio cursor-pointer"
+              className={`bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6 border cursor-pointer ${
+                modulo.destacado 
+                  ? 'border-quillay-medio ring-2 ring-quillay-claro/30' 
+                  : 'border-neutral-200 hover:border-quillay-medio'
+              }`}
             >
               <div className={`${modulo.color} w-12 h-12 rounded-lg flex items-center justify-center mb-4`}>
                 <Icono size={24} className="text-white" />
