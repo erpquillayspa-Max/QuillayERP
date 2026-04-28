@@ -102,13 +102,11 @@ export default function CentrosCostoPage() {
   }
 
   async function eliminarCC(cc: CentroCostoConHijos) {
-    // Validar que no tenga hijos
     if (cc.hijos.length > 0) {
       alert(`No se puede eliminar "${cc.nombre}" porque tiene ${cc.hijos.length} centro(s) de costo hijo(s). Elimine primero los hijos.`);
       return;
     }
 
-    // Validar que no tenga gastos asociados
     const { count: countGastos } = await supabase
       .from('gastos')
       .select('*', { count: 'exact', head: true })
