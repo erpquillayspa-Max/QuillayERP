@@ -99,35 +99,49 @@ export type CentroCosto = {
 };
 
 // =====================================================
-// PARÁMETROS LEGALES
+// PARÁMETROS LEGALES Y AFP
 // =====================================================
 
 export type ParametroLegal = {
   id: string;
-  nombre: string;
-  codigo: string;
-  valor_numerico: number | null;
-  valor_texto: string | null;
-  vigencia_desde: string;
-  vigencia_hasta: string | null;
+  clave: string;
+  valor: number;
+  unidad: string | null;
+  vigente_desde: string;
+  vigente_hasta: string | null;
   descripcion: string | null;
   created_en: string;
 };
 
-export type AFP = {
+export type AfpTasa = {
   id: string;
-  nombre: string;
-  tasa: number;
-  tasa_independiente: number;
-  activa: boolean;
+  afp: string;
+  tasa_dependiente: number;
+  comision: number;
+  vigente_desde: string;
+  vigente_hasta: string | null;
   created_en: string;
 };
+
+// Mantener AFP por compatibilidad con código viejo
+export type AFP = AfpTasa;
 
 export type Banco = {
   id: string;
   nombre: string;
   codigo_santander: string;
   activo: boolean;
+};
+
+export type IndicadorDiario = {
+  id: string;
+  fecha: string;
+  uf: number | null;
+  utm: number | null;
+  dolar_observado: number | null;
+  euro: number | null;
+  ipc: number | null;
+  created_en: string;
 };
 
 // =====================================================
