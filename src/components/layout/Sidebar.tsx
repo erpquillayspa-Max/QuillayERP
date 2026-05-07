@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import {
   LayoutDashboard, Users, Building2, Settings, LogOut,
-  Menu, X, FileText, Briefcase, DollarSign
+  Menu, X, Briefcase, DollarSign, TrendingUp
 } from 'lucide-react';
 import type { Usuario, RolUsuario } from '@/types';
 import { rolLabels } from '@/types';
@@ -31,6 +31,10 @@ const menuItems: Array<{
     roles: ['super_admin', 'admin_contador', 'finanzas_rrhh'] },
   { href: '/admin/centros-costo', label: 'Centros de Costo', icon: Briefcase,
     roles: ['super_admin', 'admin_contador', 'finanzas_rrhh', 'supervisor', 'solo_lectura'] },
+  { href: '/gastos', label: 'Gastos', icon: DollarSign,
+    roles: ['super_admin', 'admin_contador', 'finanzas_rrhh', 'supervisor'] },
+  { href: '/ingresos', label: 'Ingresos', icon: TrendingUp,
+    roles: ['super_admin', 'admin_contador', 'finanzas_rrhh'] },
   { href: '/admin/parametros', label: 'Parámetros Legales', icon: Settings,
     roles: ['super_admin', 'admin_contador'] },
 ];
